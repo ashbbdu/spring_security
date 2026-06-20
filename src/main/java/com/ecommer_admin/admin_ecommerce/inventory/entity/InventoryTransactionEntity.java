@@ -1,7 +1,5 @@
-package com.ecommer_admin.admin_ecommerce.product.entity;
+package com.ecommer_admin.admin_ecommerce.inventory.entity;
 
-import com.ecommer_admin.admin_ecommerce.brand.BrandEntity;
-import com.ecommer_admin.admin_ecommerce.category.entity.CategoryEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,26 +8,22 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "product_images")
-public class ProductImageEntity {
+@Table(name = "inventory_transaction")
+public class InventoryTransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String imageUrl;
+    private BigDecimal quantity;
 
     @Column
-    private Integer displayOrder;
+    private String transactionType; // PURCHASE , SALE , RETURN , ADJUSTMENT . CANCELLATION
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "product")
-    private ProductEntity product;
 
 }
