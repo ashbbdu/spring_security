@@ -11,8 +11,8 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 public class CreateCategory {
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Category name should not be empty")
+    @NotBlank(message = "Category name should not be empty")
     @Size(min = 4 , max = 255 , message = "Category name should be in between 4 to 255 characters.")
     private String name;
 
@@ -20,6 +20,6 @@ public class CreateCategory {
     @NotBlank
     @Size(min = 4 , message = "Category description should be greater than 4 characters.")
     private String description;
-    @NotNull
+    @NotNull(message = "Status should be true or false")
     private Boolean status;
 }
