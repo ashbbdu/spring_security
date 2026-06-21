@@ -2,14 +2,17 @@ package com.ecommer_admin.admin_ecommerce.category.entity;
 
 import com.ecommer_admin.admin_ecommerce.product.entity.ProductEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@SuperBuilder
 @Entity
 @Table(name = "categories")
 @Getter
@@ -25,8 +28,9 @@ public class CategoryEntity {
     @Column
     private String description;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
-    private Boolean status;
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean status = true;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

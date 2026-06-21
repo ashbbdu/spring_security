@@ -1,5 +1,6 @@
 package com.ecommer_admin.admin_ecommerce.common.advice;
 
+import com.ecommer_admin.admin_ecommerce.common.exception.ConflictException;
 import com.ecommer_admin.admin_ecommerce.common.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -13,33 +14,74 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    public ResponseEntity<ApiError> handleResourceNotFoundException (ResourceNotFoundException e) {
+//        ApiError apiError = ApiError.builder().httpStatus(HttpStatus.BAD_REQUEST).message(e.getMessage()).build();
+//        return new ResponseEntity<>(apiError , HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ApiError> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
+//        List<String> errors = e.getAllErrors()
+//                .stream().map(message -> message.getDefaultMessage()).toList();
+//        ApiError apiError = ApiError.builder()
+//                .message("Input Validation Failed").httpStatus(HttpStatus.BAD_REQUEST)
+//                .subErrors(errors).build();
+//        return new ResponseEntity<>(apiError , HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    public ResponseEntity<ApiError> handleDataIntegrityViolationException(
+//            DataIntegrityViolationException e) {
+//
+//        ApiError apiError = ApiError.builder()
+//                .httpStatus(HttpStatus.CONFLICT)
+//                .message("Database constraint violation")
+//                .subErrors(List.of(e.getMostSpecificCause().getMessage()))
+//                .build();
+//
+//        return new ResponseEntity<>(apiError , HttpStatus.CONFLICT);
+//    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> handleResourceNotFoundException (ResourceNotFoundException e) {
+    public ResponseEntity<ApiResponse<?>> handleResourceNotFoundException (ResourceNotFoundException e) {
         ApiError apiError = ApiError.builder().httpStatus(HttpStatus.BAD_REQUEST).message(e.getMessage()).build();
-        return new ResponseEntity<>(apiError , HttpStatus.BAD_REQUEST);
+//        return new ResponseEntity<>(apiError , HttpStatus.BAD_REQUEST);
+        return handleGlobalResponse(apiError , HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
         List<String> errors = e.getAllErrors()
                 .stream().map(message -> message.getDefaultMessage()).toList();
         ApiError apiError = ApiError.builder()
                 .message("Input Validation Failed").httpStatus(HttpStatus.BAD_REQUEST)
                 .subErrors(errors).build();
-        return new ResponseEntity<>(apiError , HttpStatus.BAD_REQUEST);
+        return handleGlobalResponse(apiError , HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiError> handleDataIntegrityViolationException(
-            DataIntegrityViolationException e) {
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    public ResponseEntity<ApiResponse<?>> handleDataIntegrityViolationException(
+//            DataIntegrityViolationException e) {
+//
+//        ApiError apiError = ApiError.builder()
+//                .httpStatus(HttpStatus.CONFLICT)
+//                .message("Database constraint violation")
+//                .subErrors(List.of(e.getMostSpecificCause().getMessage()))
+//                .build();
+//
+//        return handleGlobalResponse(apiError , HttpStatus.CONFLICT);
+//    }
 
-        ApiError apiError = ApiError.builder()
-                .httpStatus(HttpStatus.CONFLICT)
-                .message("Database constraint violation")
-                .subErrors(List.of(e.getMostSpecificCause().getMessage()))
-                .build();
 
-        return new ResponseEntity<>(apiError , HttpStatus.CONFLICT);
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiResponse<?>> handleConflictFieldException (ConflictException e) {
+        ApiError apiError = ApiError.builder().httpStatus(HttpStatus.CONFLICT).message(e.getMessage()).build();
+        return handleGlobalResponse(apiError , HttpStatus.CONFLICT);
+    }
+
+    public ResponseEntity<ApiResponse<?>> handleGlobalResponse (ApiError apiError , HttpStatus status) {
+        return new ResponseEntity<>(new ApiResponse<>(apiError) , status);
     }
 
 }
