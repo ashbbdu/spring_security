@@ -1,6 +1,6 @@
 package com.ecommer_admin.admin_ecommerce.product.entity;
 
-import com.ecommer_admin.admin_ecommerce.brand.BrandEntity;
+import com.ecommer_admin.admin_ecommerce.brand.entity.BrandEntity;
 import com.ecommer_admin.admin_ecommerce.category.entity.CategoryEntity;
 import com.ecommer_admin.admin_ecommerce.inventory.entity.InventoryEntity;
 import com.ecommer_admin.admin_ecommerce.order.entity.OrderItemEntity;

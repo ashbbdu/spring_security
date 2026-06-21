@@ -1,7 +1,10 @@
-package com.ecommer_admin.admin_ecommerce.brand;
+package com.ecommer_admin.admin_ecommerce.brand.entity;
 
 import com.ecommer_admin.admin_ecommerce.product.entity.ProductEntity;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "brands")
+@Getter
+@Setter
 public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
