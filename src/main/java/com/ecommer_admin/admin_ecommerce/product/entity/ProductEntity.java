@@ -2,6 +2,8 @@ package com.ecommer_admin.admin_ecommerce.product.entity;
 
 import com.ecommer_admin.admin_ecommerce.brand.BrandEntity;
 import com.ecommer_admin.admin_ecommerce.category.entity.CategoryEntity;
+import com.ecommer_admin.admin_ecommerce.inventory.entity.InventoryEntity;
+import com.ecommer_admin.admin_ecommerce.order.entity.OrderItemEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,5 +47,12 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "product")
     private List<ProductImageEntity> productImages;
+
+    @ManyToOne
+    @JoinColumn(name = "orderItem_id")
+    private OrderItemEntity orderItem;
+
+    @OneToOne(mappedBy = "product")
+    private InventoryEntity inventory;
 
 }

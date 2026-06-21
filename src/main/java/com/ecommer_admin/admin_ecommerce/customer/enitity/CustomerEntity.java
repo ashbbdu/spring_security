@@ -1,9 +1,13 @@
 package com.ecommer_admin.admin_ecommerce.customer.enitity;
 
+import com.ecommer_admin.admin_ecommerce.address.entity.AddressEntity;
 import com.ecommer_admin.admin_ecommerce.order.entity.OrderEntity;
 import com.ecommer_admin.admin_ecommerce.product.entity.ProductEntity;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,6 +32,16 @@ public class CustomerEntity {
     @Column(nullable = false)
     private Boolean status;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
+
     @OneToMany(mappedBy = "customer")
     private List<OrderEntity> orders;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
 }

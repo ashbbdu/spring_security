@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "purchase_order_item")
 public class PurchaseOrderItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

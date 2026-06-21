@@ -1,8 +1,12 @@
 package com.ecommer_admin.admin_ecommerce.order.entity;
 
+import com.ecommer_admin.admin_ecommerce.product.entity.ProductEntity;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,5 +35,16 @@ public class OrderItemEntity {
     @Column(nullable = false)
     private Boolean status;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    private LocalDateTime updateAt;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
+
+    @OneToMany(mappedBy = "orderItem")
+    private List<ProductEntity> products;
 }

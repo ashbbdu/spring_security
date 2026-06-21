@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -46,4 +47,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItemEntity> orderItems;
+
 }

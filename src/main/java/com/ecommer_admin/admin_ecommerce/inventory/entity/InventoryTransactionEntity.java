@@ -26,4 +26,8 @@ public class InventoryTransactionEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inventory_id")
+    private InventoryEntity inventory;
+
 }
