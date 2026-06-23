@@ -31,7 +31,7 @@ public class InventoryEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 

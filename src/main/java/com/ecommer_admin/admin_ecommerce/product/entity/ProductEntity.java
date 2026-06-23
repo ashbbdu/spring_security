@@ -41,22 +41,22 @@ public class ProductEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
     @OneToMany(mappedBy = "product")
     private List<ProductImageEntity> productImages;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderItem_id")
     private OrderItemEntity orderItem;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product" , fetch = FetchType.LAZY)
     private InventoryEntity inventory;
 
 }
