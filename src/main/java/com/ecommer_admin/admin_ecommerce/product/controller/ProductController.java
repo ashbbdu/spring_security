@@ -49,9 +49,9 @@ public class ProductController {
         return productService.deleteProductImage(productId , productImageId);
     }
 
-//    @GetMapping("/list1")
-//    public List<ViewProductDto> getAllProducts1 () {
-//        return productService.getAllProducts1();
-//    }
+    @GetMapping("/list1")
+    public List<ViewProductDto> getAllProducts1 () {
+        return productService.getAllProducts1();
+    }
 
 }

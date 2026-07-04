@@ -11,6 +11,9 @@ import com.ecommer_admin.admin_ecommerce.product.repository.ProductImageReposito
 import com.ecommer_admin.admin_ecommerce.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,7 +94,11 @@ public class ProductService {
         return modelMapper.map(product , ViewProduct.class);
     }
 
-//    public List<ViewProductDto> getAllProducts1() {
-//        return productRepository.getAllTest();
-//    }
+    public List<ViewProductDto> getAllProducts1() {
+        Pageable pageable = PageRequest.of(0 , 10);
+        Page<Long> page = productRepository.findProductIds(pageable);
+//        System.out.println(page.getContent() + " pages ashish");
+        List<ProductEntity> products = productRepository.findAllByIdWithImages(page.getContent());
+        return products.stream().map(res -> modelMapper.map(res , ViewProductDto.class)).toList();
+    }
 }
