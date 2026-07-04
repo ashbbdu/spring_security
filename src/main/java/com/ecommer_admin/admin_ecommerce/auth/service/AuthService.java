@@ -6,6 +6,9 @@ import com.ecommer_admin.admin_ecommerce.common.exception.ResourceNotFoundExcept
 import com.ecommer_admin.admin_ecommerce.user.entities.UserEntity;
 import com.ecommer_admin.admin_ecommerce.user.repository.UserRepository;
 import com.ecommer_admin.admin_ecommerce.user.service.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +25,7 @@ public class AuthService {
     private final ModelMapper modelMapper;
 //    private final LoginViewDto loginViewDto;
 
-    public LoginViewDto login(LoginDto loginDto) {
+    public LoginViewDto login(LoginDto loginDto , HttpServletRequest request , HttpServletResponse response) {
         UserEntity user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() ->
                 new ResourceNotFoundException("User with this email does not exists !"));
 
@@ -35,11 +38,15 @@ public class AuthService {
         String token = jwtService.generateToken(currentUser);
         System.out.println(token + " user token");
 
+        Cookie cookie = new Cookie("token" , token);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
 //        loginViewDto.setToken(token);
 
-        LoginViewDto response = modelMapper.map(currentUser, LoginViewDto.class);
-        response.setToken(token);
-        return response;
+        LoginViewDto resp = modelMapper.map(currentUser, LoginViewDto.class);
+        resp.setToken(token);
+        return resp;
 
 
     }

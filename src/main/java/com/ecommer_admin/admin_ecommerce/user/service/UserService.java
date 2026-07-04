@@ -9,6 +9,7 @@ import com.ecommer_admin.admin_ecommerce.common.exception.ResourceNotFoundExcept
 import com.ecommer_admin.admin_ecommerce.user.entities.UserEntity;
 import com.ecommer_admin.admin_ecommerce.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NullMarked;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User does not exists !"));
+    }
+
+    public UserEntity getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found !"));
     }
 
     public UserDto signUp(SignupDto signupDto) {

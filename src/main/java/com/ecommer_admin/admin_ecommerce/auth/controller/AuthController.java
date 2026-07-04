@@ -7,6 +7,8 @@ import com.ecommer_admin.admin_ecommerce.auth.dto.UserDto;
 import com.ecommer_admin.admin_ecommerce.auth.service.AuthService;
 import com.ecommer_admin.admin_ecommerce.user.entities.UserEntity;
 import com.ecommer_admin.admin_ecommerce.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginViewDto> login (@RequestBody LoginDto loginDto) {
-       LoginViewDto user = authService.login(loginDto);
+    public ResponseEntity<LoginViewDto> login (@RequestBody LoginDto loginDto , HttpServletRequest request , HttpServletResponse response) {
+       LoginViewDto user = authService.login(loginDto , request , response);
        return ResponseEntity.ok(user);
     }
 
