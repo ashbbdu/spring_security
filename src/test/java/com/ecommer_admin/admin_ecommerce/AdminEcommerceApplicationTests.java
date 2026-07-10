@@ -1,25 +1,21 @@
 package com.ecommer_admin.admin_ecommerce;
 
-import com.ecommer_admin.admin_ecommerce.user.entities.UserEntity;
-import com.ecommer_admin.admin_ecommerce.user.service.JwtService;
+import com.ecommer_admin.admin_ecommerce.auth.service.JwtService;
+import com.ecommer_admin.admin_ecommerce.user.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class AdminEcommerceApplicationTests {
+
 	@Autowired
-	JwtService jwtService;
+	private JwtService jwtService;
 	@Test
 	void contextLoads() {
-		UserEntity user = new UserEntity(4L , "ash@gmail.com" , "1234");
+		UserEntity user = new UserEntity(1L , "ash@yopmail.com" , "abcde" , "ash" );
 		String token = jwtService.generateToken(user);
-		System.out.println(token + " token");
-
-		Long id = jwtService.getUserIdFromToken(token);
-		System.out.println(id  + " user id");
+		System.out.println(token + " JWT Token");
 	}
-
-
 
 }
