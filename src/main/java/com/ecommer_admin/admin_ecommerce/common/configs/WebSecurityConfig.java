@@ -1,5 +1,7 @@
 package com.ecommer_admin.admin_ecommerce.common.configs;
 
+import com.ecommer_admin.admin_ecommerce.filters.JwtAuthFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,12 +17,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.net.http.HttpRequest;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+    private final JwtAuthFilter jwtAuthFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http
@@ -28,7 +34,7 @@ public class WebSecurityConfig {
 
                         auth
                                 .requestMatchers("/products/**" , "/auth/**").permitAll()
-                                .requestMatchers("/brands/**").hasAnyRole("ADMIN")
+                                .requestMatchers("/brands/**").authenticated()
 //                                .requestMatchers("/brands/**").hasAllRoles("ADMIN" , "USER")
                                 .anyRequest().authenticated())
 //                .formLogin(Customizer.withDefaults())
@@ -36,6 +42,7 @@ public class WebSecurityConfig {
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(Customizer.withDefaults())
+                .addFilterBefore(jwtAuthFilter , UsernamePasswordAuthenticationFilter.class)
 
         ;
         return http.build();

@@ -33,7 +33,7 @@ public class JwtService {
                 .claim("email" , user.getEmail())
                 .claim("roles" , Set.of("ADMIN" , "USER")) // hardcoding it for now
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .expiration(new Date(System.currentTimeMillis() + 10000*60))
                 .signWith(generateKey())
                 .compact()
         ;
@@ -44,6 +44,8 @@ public class JwtService {
 //        System.out.println(jwtParser.parse(token).getPayload());;
 //        return 1L;
         Claims claims = Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(token).getPayload();
-        return Long.valueOf(claims.getId());
+        System.out.println(claims.getSubject()+ " claims id");
+//        return Long.valueOf(claims.getId());
+        return Long.valueOf(claims.getSubject()); // getSubject not id because while creating token we did this .subject(user.getId().toString())
     }
 }
