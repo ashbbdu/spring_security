@@ -2,7 +2,9 @@ package com.ecommer_admin.admin_ecommerce.common.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,15 +41,20 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    @Bean
-    UserDetailsService myInMemoryUser () {
-        UserDetails adminUser = User.withUsername("Ashish").password(passwordEncoder().encode("abc")).roles("ADMIN").build();
-        UserDetails normalUser = User.withUsername("Ashish1").password(passwordEncoder().encode("xyz")).roles("USER").build();
-        return new InMemoryUserDetailsManager(adminUser , normalUser);
-    }
+//    @Bean
+//    UserDetailsService myInMemoryUser () {
+//        UserDetails adminUser = User.withUsername("Ashish").password(passwordEncoder().encode("abc")).roles("ADMIN").build();
+//        UserDetails normalUser = User.withUsername("Ashish1").password(passwordEncoder().encode("xyz")).roles("USER").build();
+//        return new InMemoryUserDetailsManager(adminUser , normalUser);
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager (AuthenticationConfiguration config) {
+        return config.getAuthenticationManager();
     }
 }
