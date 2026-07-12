@@ -1,6 +1,5 @@
 package com.ecommer_admin.admin_ecommerce.common.advice;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ public class ApiResponse <T> {
         this.error = error;
     }
 
-    ApiResponse (T data) {
+     ApiResponse(T data) {
         this();
         this.success = true;
         this.message = "Successful Operation";

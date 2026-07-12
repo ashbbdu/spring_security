@@ -51,8 +51,8 @@ public class AuthService {
 
 
     public UserDto login(LoginDto loginDto) {
-        UserEntity user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() ->
-                     new ResourceNotFoundException("User not found for the given email"));
+//        UserEntity user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() ->
+//                     new ResourceNotFoundException("User not found for the given email")); // this is not required because we are already handling this in UserService
 
         Authentication authentication = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginDto.getEmail() , loginDto.getPassword()) // passing the principle

@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
 
                         auth
-                                .requestMatchers("/products/**" , "/auth/**").permitAll()
+                                .requestMatchers("/products/**" , "/product-client/**" , "/auth/**").permitAll()
                                 .requestMatchers("/brands/**").authenticated()
 //                                .requestMatchers("/brands/**").hasAllRoles("ADMIN" , "USER")
                                 .anyRequest().authenticated())
@@ -41,7 +41,7 @@ public class WebSecurityConfig {
 //                .formLogin(formLoginConfig -> formLoginConfig.loginPage("/index.html"))
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthFilter , UsernamePasswordAuthenticationFilter.class)
 
         ;

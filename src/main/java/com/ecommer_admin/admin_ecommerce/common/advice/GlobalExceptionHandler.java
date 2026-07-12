@@ -3,11 +3,14 @@ package com.ecommer_admin.admin_ecommerce.common.advice;
 import com.ecommer_admin.admin_ecommerce.common.exception.BadRequestException;
 import com.ecommer_admin.admin_ecommerce.common.exception.ConflictException;
 import com.ecommer_admin.admin_ecommerce.common.exception.ResourceNotFoundException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -143,5 +146,25 @@ public class GlobalExceptionHandler {
                 .build();
 
         return handleGlobalResponse(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException (AuthenticationException ex) {
+        ApiError apiError = ApiError.builder()
+                .httpStatus(HttpStatus.UNAUTHORIZED)
+                .message(ex.getMessage())
+                .build();
+
+        return handleGlobalResponse(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiResponse<?>> handleJwtException (JwtException   ex) {
+        ApiError apiError = ApiError.builder()
+                .httpStatus(HttpStatus.UNAUTHORIZED)
+                .message(ex.getMessage())
+                .build();
+
+        return handleGlobalResponse(apiError, HttpStatus.UNAUTHORIZED);
     }
 }
