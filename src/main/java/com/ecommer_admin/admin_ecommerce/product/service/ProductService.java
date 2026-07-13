@@ -11,6 +11,8 @@ import com.ecommer_admin.admin_ecommerce.product.repository.ProductImageReposito
 import com.ecommer_admin.admin_ecommerce.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +27,18 @@ public class ProductService {
     private final ProductImageRepository productImageRepository;
     private final ModelMapper modelMapper;
 
+    Logger log = LoggerFactory.getLogger(ProductService.class);
+
     public ViewProduct addProduct(CreateProduct createProduct) {
+        log.trace("Starting creating the add product");
         if(productRepository.existsBySku(createProduct.getSku())) {
+            log.error("Product with this SKU already present.");
             throw new ConflictException("Product with this SKU already present.");
+
         }
         ProductEntity product = modelMapper.map(createProduct , ProductEntity.class);
         productRepository.save(product);
+        log.info("Product Created Successfully");
         return modelMapper.map(product , ViewProduct.class);
 
     }

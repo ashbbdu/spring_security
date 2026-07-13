@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
 
                         auth
-                                .requestMatchers("/products/**" , "/product-client/**" , "/auth/**").permitAll()
+                                .requestMatchers("/products/**" , "/product-client/**" , "/auth/**" , "/actuator/**" , "/swagger-ui/**" , "/v3/**" , "/test/**").permitAll()
                                 .requestMatchers("/brands/**").authenticated()
 //                                .requestMatchers("/brands/**").hasAllRoles("ADMIN" , "USER")
                                 .anyRequest().authenticated())
